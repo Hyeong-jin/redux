@@ -1,34 +1,81 @@
 import {
-  Store, createStore, Reducer, Action, StoreEnhancer,
-  StoreCreator, Unsubscribe
-} from "../../index.d.ts";
-
+  Store,
+  createStore,
+  Reducer,
+  Action,
+  StoreEnhancer,
+  StoreCreator,
+  StoreEnhancerStoreCreator,
+  Unsubscribe
+} from 'redux'
 
 type State = {
-  todos: string[];
+  a: 'a'
+  b: {
+    c: 'c'
+    d: 'd'
+  }
 }
 
-const reducer: Reducer<State> = (state: State, action: Action): State => {
-  return state;
+interface DerivedAction extends Action {
+  type: 'a'
+  b: 'b'
 }
 
+const reducer: Reducer<State> = (
+  state: State | undefined = {
+    a: 'a',
+    b: {
+      c: 'c',
+      d: 'd'
+    }
+  },
+  action: Action
+): State => {
+  return state
+}
+
+const reducerWithAction: Reducer<State, DerivedAction> = (
+  state: State | undefined = {
+    a: 'a',
+    b: {
+      c: 'c',
+      d: 'd'
+    }
+  },
+  action: DerivedAction
+): State => {
+  return state
+}
+
+const funcWithStore = (store: Store<State, DerivedAction>) => {}
 
 /* createStore */
 
-const store: Store<State> = createStore<State>(reducer);
+const store: Store<State> = createStore(reducer)
 
-const storeWithInitialState: Store<State> = createStore(reducer, {
-  todos: []
-});
+const storeWithPreloadedState: Store<State> = createStore(reducer, {
+  b: { c: 'c' }
+})
 
-const enhancer: StoreEnhancer = (next: StoreCreator) => next;
+const storeWithActionReducer = createStore(reducerWithAction)
+const storeWithActionReducerAndPreloadedState = createStore(reducerWithAction, {
+  b: { c: 'c' }
+})
+funcWithStore(storeWithActionReducer)
+funcWithStore(storeWithActionReducerAndPreloadedState)
 
-const storeWithEnhancer: Store<State> = createStore(reducer, enhancer);
+const enhancer: StoreEnhancer = next => next
 
-const storeWithInitialStateAndEnhancer: Store<State> = createStore(reducer, {
-  todos: []
-}, enhancer);
+const storeWithSpecificEnhancer: Store<State> = createStore(reducer, enhancer)
 
+const storeWithPreloadedStateAndEnhancer: Store<State> = createStore(
+  reducer,
+  {
+    b: { c: 'c' }
+  },
+  enhancer
+)
 
 /* dispatch */
 
@@ -37,11 +84,9 @@ store.dispatch({
   text: 'test'
 })
 
-
 /* getState */
 
-const state: State = store.getState();
-
+const state: State = store.getState()
 
 /* subscribe / unsubscribe */
 
@@ -49,13 +94,10 @@ const unsubscribe: Unsubscribe = store.subscribe(() => {
   console.log('Current state:', store.getState())
 })
 
-unsubscribe();
-
+unsubscribe()
 
 /* replaceReducer */
 
-const newReducer: Reducer<State> = (state: State, action: Action): State => {
-  return state;
-}
+const newReducer: Reducer<State> = reducer
 
-store.replaceReducer(newReducer);
+store.replaceReducer(newReducer)
