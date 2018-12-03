@@ -34,6 +34,7 @@ This page lists some of the Redux-related addons that the Redux maintainers have
 - [Component State and Encapsulation](#component-state-and-encapsulation)
 - [Dev Tools](#dev-tools)
   - [Debuggers and Viewers](#debuggers-and-viewers)
+  - [DevTools Monitors](#devtools-monitors)
   - [Logging](#logging)
   - [Mutation Detection](#mutation-detection)
 - [Testing](#testing)
@@ -69,7 +70,7 @@ Redux bindings for custom elements
 
 #### Reducer Combination
 
-**[ryo33/combineSectionReducers](https://github.com/ryo33/combine-section-reducers)**  
+**[ryo33/combineSectionReducers](https://gitlab.com/ryo33/combine-section-reducers)**  
 An expanded version of `combineReducers`, which allows passing `state` as a third argument to all slice reducers.
 
 **[KodersLab/topologically-combine-reducers](https://github.com/KodersLab/topologically-combine-reducers)**  

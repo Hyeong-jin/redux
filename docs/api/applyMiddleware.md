@@ -14,7 +14,7 @@ Middleware is not baked into [`createStore`](createStore.md) and is not a fundam
 
 #### Returns
 
-(_Function_) A store enhancer that applies the given middleware. The store enhancer signature is `createStore => createStore'` but the easiest way to apply it is to pass it to [`createStore()`](./createStore.md) as the last `enhancer` argument.
+(_Function_) A store enhancer that applies the given middleware. The store enhancer signature is `createStore => createStore` but the easiest way to apply it is to pass it to [`createStore()`](./createStore.md) as the last `enhancer` argument.
 
 #### Example: Custom Logger Middleware
 
@@ -172,9 +172,9 @@ class SandwichShop extends Component {
     this.props.dispatch(makeASandwichWithSecretSauce(this.props.forPerson))
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.forPerson !== this.props.forPerson) {
-      this.props.dispatch(makeASandwichWithSecretSauce(nextProps.forPerson))
+  componentDidUpdate(prevProps) {
+    if (prevProps.forPerson !== this.props.forPerson) {
+      this.props.dispatch(makeASandwichWithSecretSauce(this.props.forPerson))
     }
   }
 
